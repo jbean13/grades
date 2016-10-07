@@ -1,1 +1,44 @@
-New File here
+package pkg1;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+public class Grades {
+	static final int NUM = 1000;
+	public static void statistic(List<Integer> grades) {
+		Map<String, Long> map1 = grades.stream().parallel()
+				.collect(Collectors.groupingBy(g -> {
+					if (g > 94) return "A+";
+					else if (g > 89) return "A";
+					else if (g > 84) return "B+";
+					else if (g > 79) return "B";
+					else if (g > 74) return "C+";
+					else if (g > 69) return "C";
+					else return "D";
+				}, TreeMap::new, Collectors.counting()
+						));
+		System.out.println(map1);
+		Map<String, Double> map2 = new TreeMap<>();
+		Set<String> keys = map1.keySet();
+		keys.forEach(k -> map2.put(k, (double)map1.get(k)*100/NUM));
+		System.out.println(map2);
+		
+		
+	}
+	public static void main(String[] args) {
+		List<Integer> test1 = new ArrayList<>();
+		for (int i=0;i<NUM;i++) {
+			test1.add(new Random().nextInt(51) + 50);
+		}
+		System.out.println(test1);
+		statistic(test1);
+	
+	}
+
+}
