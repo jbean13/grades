@@ -1,6 +1,7 @@
 package pkg1;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,7 +10,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class Grades {
-	static final int NUM = 1000;
+	static final int NUM = 50;
 	public static void statistic(List<Integer> grades) {
 		Map<String, Long> map1 = grades.stream().parallel()
 				.collect(Collectors.groupingBy(g -> {
@@ -23,15 +24,19 @@ public class Grades {
 				}, TreeMap::new, Collectors.counting()
 						));
 		System.out.println(map1);
-		Map<String, Double> map2 = new TreeMap<>();
-//		Set<String> keys = map1.keySet();
-//		keys.forEach(k -> map2.put(k, (double)map1.get(k)*100/NUM));
-//		System.out.println(map2);
-		
 		Set<Map.Entry<String, Long>> entries = map1.entrySet();
+	
+		Map<String, Double> map2 = new TreeMap<>();		
 		entries.stream()
 			.forEach(e->map2.put(e.getKey(), (double)e.getValue()*100/NUM));
 		System.out.println(map2);
+		
+		IntSummaryStatistics sta = grades.stream()
+			.mapToInt(v->v).summaryStatistics();
+		System.out.println("max = " + sta.getMax());
+		System.out.println("min = " + sta.getMin());
+		System.out.println("ave = " + sta.getAverage());
+		
 
 	}
 	public static void main(String[] args) {
@@ -39,7 +44,6 @@ public class Grades {
 		for (int i=0;i<NUM;i++) {
 			test1.add(new Random().nextInt(51) + 50);
 		}
-//		System.out.println(test1);
 		statistic(test1);
 	
 	}
