@@ -1,7 +1,6 @@
 package pkg1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -25,20 +24,25 @@ public class Grades {
 						));
 		System.out.println(map1);
 		Map<String, Double> map2 = new TreeMap<>();
-		Set<String> keys = map1.keySet();
-		keys.forEach(k -> map2.put(k, (double)map1.get(k)*100/NUM));
+//		Set<String> keys = map1.keySet();
+//		keys.forEach(k -> map2.put(k, (double)map1.get(k)*100/NUM));
+//		System.out.println(map2);
+		
+		Set<Map.Entry<String, Long>> entries = map1.entrySet();
+		entries.stream()
+			.forEach(e->map2.put(e.getKey(), (double)e.getValue()*100/NUM));
 		System.out.println(map2);
-		
-		
+
 	}
 	public static void main(String[] args) {
 		List<Integer> test1 = new ArrayList<>();
 		for (int i=0;i<NUM;i++) {
 			test1.add(new Random().nextInt(51) + 50);
 		}
-		System.out.println(test1);
+//		System.out.println(test1);
 		statistic(test1);
 	
 	}
 
 }
+
